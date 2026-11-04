@@ -3,6 +3,7 @@ import express from "express";
 const app = express();
 const port = 3000;
 
+const channel = {"id": "UC_x5XG1OV2P6uZZ5FSM9Ttw", "name": "Misconduct Productions"};
 
 app.get("/", (req, res) => {
   res.send("Hello from the server!");
@@ -10,6 +11,15 @@ app.get("/", (req, res) => {
 
 app.get("/youtube", async (req, res) => {
   const id = req.query.v;
+  const apiKey = "AIzaSyAk0Ho-MN8aCRSzDiqJlF_O9dm9MM5y9Dk";
+  const url = `https://www.googleapis.com/youtube/v3/videos?part=snippet,statistics&id=${id}&key=${apiKey}`;
+  const response = await fetch(url);
+  const data = await response.json();
+  res.json(data);
+});
+
+app.get("/youtube/:id", async (req, res) => {
+  const id = req.params.id;
   const apiKey = "AIzaSyAk0Ho-MN8aCRSzDiqJlF_O9dm9MM5y9Dk";
   const url = `https://www.googleapis.com/youtube/v3/videos?part=snippet,statistics&id=${id}&key=${apiKey}`;
   const response = await fetch(url);
